@@ -118,9 +118,8 @@ void destroy_window(void) {
 	SDL_Quit();
 }
 
-int main(void) {
+int main(int argc, char* argv[]) {
 	is_running = initialize_window();
-
 	setup();
 
 	while (is_running) {
