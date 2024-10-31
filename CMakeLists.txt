@@ -25,7 +25,11 @@ endif()
 include_directories(${SDL2_INCLUDE_DIR})
 
 # Link SDL2 and SDL2main libraries
-target_link_libraries(${PROJECT_NAME} "W:/external_libs/SDL2/lib/x64/SDL2main.lib" ${SDL2_LIBRARY})
+if(WIN32)
+    target_link_libraries(${PROJECT_NAME} "W:/external_libs/SDL2/lib/x64/SDL2main.lib" ${SDL2_LIBRARY})
+elseif(APPLE)
+    target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARY})
+endif ()
 
 # Specify subsystem for Windows applications
 if(WIN32)
