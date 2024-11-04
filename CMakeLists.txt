@@ -4,13 +4,10 @@ project(Pikuma3D C)
 set(CMAKE_C_STANDARD 11)
 
 # Source files
-set(SOURCES
-        src/main.c
-        # other source files
-)
+file(GLOB SOURCE_FILES src/*.c src/*.h)
 
 # Add executable
-add_executable(${PROJECT_NAME} ${SOURCES})
+add_executable(${PROJECT_NAME} ${SOURCE_FILES})
 
 # SDL2 paths
 if(WIN32)
