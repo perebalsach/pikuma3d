@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include <stdbool.h>
+#define SDL_MAIN_HANDLED
 #include <SDL.h>
 #include "display.h"
 
