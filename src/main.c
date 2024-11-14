@@ -14,10 +14,8 @@ float fov_factor = 128;
 bool is_running = false;
 
 void setup(void) {
-	// Allocate the required memory in bytes to hold the color buffer
 	color_buffer = (uint32_t*) malloc(sizeof(uint32_t) * window_width * window_height);
 
-	// Creating a SDL texture that is used to display the color buffer
 	color_buffer_texture = SDL_CreateTexture(
 			renderer,
 			SDL_PIXELFORMAT_ARGB8888,
@@ -64,10 +62,8 @@ void update(void) {
 	for (int i = 0; i < N_POINTS; i++) {
 		vec3_t point = cube_points[i];
 
-		// Project the current point
 		vec2_t projected_point = project(point);
 
-		// Save the projected 2D vector in the array of projected points
 		projected_points[i] = projected_point;
 	}
 }
@@ -75,7 +71,6 @@ void update(void) {
 void render(void) {
 	// draw_grid();
 
-	// Loop all projected points and render them
 	for (int i = 0; i < N_POINTS; i++) {
 		vec2_t projected_point = projected_points[i];
 		draw_rect(
