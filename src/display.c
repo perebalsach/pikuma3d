@@ -79,3 +79,19 @@ void destroy_window(void) {
 	SDL_DestroyWindow(window);
 	SDL_Quit();
 }
+
+void draw_pixel(int x, int y, uint32_t color) {
+	if (x >= 0 && x < window_width && y >= 0 && y < window_height) {
+		color_buffer[(window_width * y) + x] = color;
+	}
+}
+
+void draw_rect(int x, int y, int width, int height, uint32_t color) {
+	for (int i = 0; i < width; i++) {
+		for (int j = 0; j < height; j++) {
+			int current_x = x + i;
+			int current_y = y + j;
+			draw_pixel(current_x, current_y, color);
+		}
+	}
+}
