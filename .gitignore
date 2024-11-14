@@ -1,7 +1,9 @@
 .idea
 build
 .vscode
+.vs
 
+CMakeSettings.json
 CMakeLists.txt.user
 CMakeCache.txt
 CMakeFiles
