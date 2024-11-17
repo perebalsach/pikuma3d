@@ -82,7 +82,7 @@ void load_obj_file_data(char* filename) {
 			);
 
 			if (matches = !9) {
-				printf("ERROR: Malformed face data %s\n", line);
+				printf("ERROR: Malformed face data in obj file %s\n", line);
 				continue;
 			}
 
