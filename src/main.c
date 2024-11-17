@@ -28,7 +28,8 @@ void setup(void) {
 			window_height
 	);
 
-	load_cube_mesh_data();
+	// load_cube_mesh_data();
+	load_obj_file_data("./res/meshes/torus.obj");
 }
 
 void process_input(void) {
