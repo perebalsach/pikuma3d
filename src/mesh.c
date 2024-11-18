@@ -54,11 +54,11 @@ void load_cube_mesh_data(void) {
 	}
 }
 
-void load_obj_file_data(char* filename) {
+int load_obj_file_data(char* filename) {
 	FILE* file = fopen(filename, "r");
 	if (file == NULL) {
 		printf("ERROR: Can't load file at: %s\n", filename);
-		return 1;
+		return 0;
 	}
 
 	printf("SUCESS: Loaded obj file at: %s\n", filename);
@@ -95,6 +95,6 @@ void load_obj_file_data(char* filename) {
 		}
 	}
 
-
 	fclose(file);
+	return 1;
 }

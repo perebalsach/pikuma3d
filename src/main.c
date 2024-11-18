@@ -29,7 +29,10 @@ void setup(void) {
 	);
 
 	// load_cube_mesh_data();
-	load_obj_file_data("./res/meshes/torus.obj");
+	if (load_obj_file_data("./res/meshes/torus.obj") != 1) {
+		printf("ERROR: Failed to load obj file data.\n");
+		exit(1);
+	}
 }
 
 void process_input(void) {
