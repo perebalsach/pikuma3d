@@ -11,7 +11,6 @@
 
 
 triangle_t* triangles_to_render = NULL;
-#define BACKGROUND_COLOR 0x808080;
 
 vec3_t camera_position = { 0, 0, 0 };
 
@@ -85,9 +84,9 @@ void update(void) {
 
 	triangles_to_render = NULL;
 
-	mesh.rotation.x += 0.01;
-	mesh.rotation.y += 0.01;
-	mesh.rotation.z += 0.01;
+	mesh.rotation.x += (float)0.01;
+	mesh.rotation.y += (float)0.01;
+	mesh.rotation.z += (float)0.01;
 
 	int num_faces = array_length(mesh.faces);
 	for (int i = 0; i < num_faces; i++) {
@@ -140,8 +139,8 @@ void update(void) {
 		// Loop all the vertices to perform projection
 		for (int j = 0; j < 3; j++) {
 			vec2_t projected_point = project(transformed_vertices[j]);
-			projected_point.x += (window_width / 2);
-			projected_point.y += (window_height / 2);
+			projected_point.x += (float)(window_width / 2);
+			projected_point.y += (float)(window_height / 2);
 
 			projected_triangle.points[j] = projected_point;
 		}
@@ -158,24 +157,24 @@ void render(void) {
 
 		if (render_method == RENDER_FILL_TRIANGLE || render_method == RENDER_FILL_TRIANGLE_WIRE) {
 			draw_filled_triangle(
-					triangle.points[0].x, triangle.points[0].y,
-					triangle.points[1].x, triangle.points[1].y,
-					triangle.points[2].x, triangle.points[2].y,
+					(int)triangle.points[0].x, (int)triangle.points[0].y,
+					(int)triangle.points[1].x, (int)triangle.points[1].y,
+					(int)triangle.points[2].x, (int)triangle.points[2].y,
 					0xff00ff00);
 		}
 		
 		if (render_method == RENDER_WIRE || render_method == RENDER_WIRE_VERTEX || render_method == RENDER_FILL_TRIANGLE_WIRE) {
 			draw_triangle(
-					triangle.points[0].x, triangle.points[0].y,
-					triangle.points[1].x, triangle.points[1].y,
-					triangle.points[2].x, triangle.points[2].y,
+					(int)triangle.points[0].x, (int)triangle.points[0].y,
+					(int)triangle.points[1].x, (int)triangle.points[1].y,
+					(int)triangle.points[2].x, (int)triangle.points[2].y,
 					0xFF000000);
 		}
 
 		if (render_method == RENDER_WIRE_VERTEX) {
-			draw_rect(triangle.points[0].x - 3, triangle.points[0].y -3, 6, 6, 0xFFFF0000);
-			draw_rect(triangle.points[1].x - 3, triangle.points[1].y -3, 6, 6, 0xFFFF0000);
-			draw_rect(triangle.points[2].x - 3, triangle.points[2].y -3, 6, 6, 0xFFFF0000);
+			draw_rect((int)triangle.points[0].x - 3, (int)triangle.points[0].y -3, 6, 6, 0xFFFF0000);
+			draw_rect((int)triangle.points[1].x - 3, (int)triangle.points[1].y -3, 6, 6, 0xFFFF0000);
+			draw_rect((int)triangle.points[2].x - 3, (int)triangle.points[2].y -3, 6, 6, 0xFFFF0000);
 		}
 	}
 
