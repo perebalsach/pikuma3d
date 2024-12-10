@@ -11,13 +11,12 @@
 
 
 triangle_t* triangles_to_render = NULL;
-
-vec3_t camera_position = { 0, 0, 0 };
-
+bool is_running = false;
 int previous_frame_time = 0;
+
+vec3_t camera_position = { .x = 0, .y = 0, .z = 0 };
 float fov_factor = 640;
 
-bool is_running = false;
 
 void setup(void) {
 	render_method = RENDER_WIRE;
@@ -33,11 +32,11 @@ void setup(void) {
 			window_height
 	);
 
-	// load_cube_mesh_data();
-	if (load_obj_file_data("./res/meshes/cube.obj") != 1) {
-		printf("ERROR: Failed to load obj file data.\n");
-		exit(1);
-	}
+	 load_cube_mesh_data();
+	//if (load_obj_file_data("./res/meshes/cube.obj") != 1) {
+	//	printf("ERROR: Failed to load obj file data.\n");
+	//	exit(1);
+	//}
 }
 
 void process_input(void) {
@@ -106,12 +105,11 @@ void update(void) {
 			transformed_vertex = vec3_rotate_y(transformed_vertex, mesh.rotation.y);
 			transformed_vertex = vec3_rotate_z(transformed_vertex, mesh.rotation.z);
 
-			transformed_vertex.z = 5;
+			transformed_vertex.z += 5;
 			transformed_vertices[j] = transformed_vertex;
 		}
 
 		if (cull_method == CULL_BACKFACE) {
-			// Backface culling
 			vec3_t vector_a = transformed_vertices[0];
 			vec3_t vector_b = transformed_vertices[1];
 			vec3_t vector_c = transformed_vertices[2];
@@ -134,16 +132,24 @@ void update(void) {
 			}
 		}
 
-		triangle_t projected_triangle;
+		vec2_t projected_points[3];
 
 		// Loop all the vertices to perform projection
 		for (int j = 0; j < 3; j++) {
-			vec2_t projected_point = project(transformed_vertices[j]);
-			projected_point.x += (float)(window_width / 2);
-			projected_point.y += (float)(window_height / 2);
+			projected_points[j] = project(transformed_vertices[j]);
 
-			projected_triangle.points[j] = projected_point;
+			projected_points[j].x += (float)(window_width / 2);
+			projected_points[j].y += (float)(window_height / 2);
 		}
+
+		triangle_t projected_triangle = {
+			.points = {
+				{projected_points[0].x, projected_points[0].y},
+				{projected_points[1].x, projected_points[1].y},
+				{projected_points[2].x, projected_points[2].y},
+			},
+			.color = mesh_face.color
+		};
 
 		array_push(triangles_to_render, projected_triangle);
 	}
@@ -160,7 +166,8 @@ void render(void) {
 					(int)triangle.points[0].x, (int)triangle.points[0].y,
 					(int)triangle.points[1].x, (int)triangle.points[1].y,
 					(int)triangle.points[2].x, (int)triangle.points[2].y,
-					0xff00ff00);
+					triangle.color
+				);
 		}
 		
 		if (render_method == RENDER_WIRE || render_method == RENDER_WIRE_VERTEX || render_method == RENDER_FILL_TRIANGLE_WIRE) {
@@ -168,7 +175,7 @@ void render(void) {
 					(int)triangle.points[0].x, (int)triangle.points[0].y,
 					(int)triangle.points[1].x, (int)triangle.points[1].y,
 					(int)triangle.points[2].x, (int)triangle.points[2].y,
-					0xFF000000);
+					triangle.color);
 		}
 
 		if (render_method == RENDER_WIRE_VERTEX) {
