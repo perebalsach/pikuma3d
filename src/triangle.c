@@ -8,6 +8,36 @@ void int_swap(int *a, int *b) {
 	*b = tmp;
 }
 
+int partition(int *array, int low, int high) {
+	int pivot = array[high];
+	int i = low - 1; // Index of smaller element
+
+	for (int j = low; j < high; j++) {
+		if (array[j] < pivot) {
+			i++;
+			int_swap(&array[i], &array[j]);
+		}
+	}
+	int_swap(&array[i + 1], &array[high]);
+	return i + 1;
+}
+
+void quick_sort_recursive(int *array, int low, int high) {
+	if (low < high) {
+		int pi = partition(array, low, high);
+
+		// Recursively sort elements before and after partition
+		quick_sort_recursive(array, low, pi - 1);
+		quick_sort_recursive(array, pi + 1, high);
+	}
+}
+
+void qsort(int *array, int size) {
+	if (size > 1) {
+		quick_sort_recursive(array, 0, size - 1);
+	}
+}
+
 void fill_flat_bottom_triangle(int x0, int y0, int x1, int y1, int x2, int y2, uint32_t color) {
 	// Slope calculation
 	float inv_slope_1 = (float)(x1 - x0) / (y1 - y0);
@@ -68,5 +98,4 @@ void draw_filled_triangle(int x0, int y0, int x1, int y1, int x2, int y2, uint32
 	fill_flat_top_triangle(x1, y1, Mx, My, x2, y2, color);
 	}
 }
-
 

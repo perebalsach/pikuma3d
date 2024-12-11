@@ -142,17 +142,24 @@ void update(void) {
 			projected_points[j].y += (float)(window_height / 2);
 		}
 
+		float avg_depth = (transformed_vertices[0].z + transformed_vertices[1].z + transformed_vertices[2].z) / 3.0;
+
 		triangle_t projected_triangle = {
 			.points = {
 				{projected_points[0].x, projected_points[0].y},
 				{projected_points[1].x, projected_points[1].y},
 				{projected_points[2].x, projected_points[2].y},
 			},
-			.color = mesh_face.color
+			.color = mesh_face.color,
+			.avg_depth = avg_depth 
 		};
 
 		array_push(triangles_to_render, projected_triangle);
 	}
+
+	// Sort the faces based on the depth
+	int size = sizeof(triangles_to_render) / sizeof(triangles_to_render[0]);
+	qsort(&triangles_to_render, size);
 }
 
 void render(void) {
